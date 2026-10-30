@@ -16,6 +16,7 @@
     let nextDirection = { x: 1, y: 0 };
     let score = 0;
     let highScore = 0;
+    let coins = 0;
     let speed = INITIAL_SPEED;
     let gameState = 'idle'; // 'idle' | 'running' | 'paused' | 'gameover'
     let gameLoop = null;
@@ -26,6 +27,7 @@
     const ctx = canvas.getContext('2d');
     const scoreEl = document.getElementById('score');
     const highScoreEl = document.getElementById('highScore');
+    const coinsEl = document.getElementById('coins');
     const overlay = document.getElementById('overlay');
     const overlayTitle = document.getElementById('overlayTitle');
     const overlaySubtitle = document.getElementById('overlaySubtitle');
@@ -45,6 +47,19 @@
             localStorage.setItem('snakeHighScore', highScore);
             highScoreEl.textContent = highScore;
         }
+    }
+
+    function loadCoins() {
+        const saved = localStorage.getItem('snakeCoins');
+        if (saved) {
+            coins = parseInt(saved, 10);
+            coinsEl.textContent = coins;
+        }
+    }
+
+    function saveCoins() {
+        localStorage.setItem('snakeCoins', coins);
+        coinsEl.textContent = coins;
     }
 
     // ===== Инициализация =====
@@ -104,6 +119,8 @@
         if (head.x === food.x && head.y === food.y) {
             score++;
             scoreEl.textContent = score;
+            coins++;
+            saveCoins();
             spawnFood();
 
             // Ускорение
@@ -134,20 +151,33 @@
             ctx.stroke();
         }
 
-        // Еда
+        // Еда (монетка)
         if (food) {
             const foodCenterX = food.x * CELL_SIZE + CELL_SIZE / 2;
             const foodCenterY = food.y * CELL_SIZE + CELL_SIZE / 2;
             const foodRadius = CELL_SIZE / 2 - 2;
 
             // Свечение
-            ctx.shadowColor = '#f87171';
-            ctx.shadowBlur = 10;
-            ctx.fillStyle = '#ef4444';
+            ctx.shadowColor = '#fbbf24';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#fbbf24';
             ctx.beginPath();
             ctx.arc(foodCenterX, foodCenterY, foodRadius, 0, Math.PI * 2);
             ctx.fill();
+
+            // Внутренний круг
             ctx.shadowBlur = 0;
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(foodCenterX, foodCenterY, foodRadius - 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Символ "$"
+            ctx.fillStyle = '#92400e';
+            ctx.font = `bold ${CELL_SIZE * 0.5}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('$', foodCenterX, foodCenterY + 1);
         }
 
         // Змейка
@@ -274,7 +304,7 @@
 
         overlayTitle.textContent = 'Игра окончена';
         overlayTitle.classList.add('game-over');
-        overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Нажмите Пробел для перезапуска`;
+        overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Монетки: ${coins} &nbsp;|&nbsp; Нажмите Пробел для перезапуска`;
         overlay.classList.remove('hidden');
 
         // Мигание змейки
@@ -341,6 +371,7 @@
 
     // ===== Запуск =====
     loadHighScore();
+    loadCoins();
     initGame();
     draw();
 
