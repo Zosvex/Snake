@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой сайт</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Шапка -->
     <header class="header">
         <div class="container">
             <div class="header__inner">
-                <a href="#" class="logo">Logo</a>
+                <a href="#" class="logo">Мой сайт</a>
                 <nav class="nav">
                     <ul class="nav__list">
                         <li class="nav__item"><a href="#" class="nav__link">Главная</a></li>
-                        <li class="nav__item"><a href="#" class="nav__link">О нас</a></li>
-                        <li class="nav__item"><a href="#" class="nav__link">Услуги</a></li>
-                        <li class="nav__item"><a href="#" class="nav__link">Контакты</a></li>
+                        <li class="nav__item"><a href="#" class="nav__link">Статьи</a></li>
+                        <li class="nav__item"><a href="#" class="nav__link">О блоге</a></li>
                     </ul>
                 </nav>
             </div>
@@ -29,41 +28,60 @@
         <!-- Герой-секция -->
         <section class="hero">
             <div class="container">
-                <h1 class="hero__title">Добро пожаловать</h1>
-                <p class="hero__subtitle">Краткое описание вашего сайта или проекта</p>
-                <button class="btn btn--primary">Начать</button>
+                <h1 class="hero__title">Добро пожаловать в мой блог</h1>
+                <p class="hero__subtitle">Мысли, идеи и заметки обо всём на свете</p>
             </div>
         </section>
 
-        <!-- Секция с карточками -->
-        <section class="features">
+        <!-- Список статей -->
+        <section class="articles">
             <div class="container">
-                <h2 class="section-title">Наши преимущества</h2>
-                <div class="features__grid">
-                    <div class="card">
-                        <div class="card__icon"></div>
-                        <h3 class="card__title">Быстро</h3>
-                        <p class="card__text">Описание преимущества или услуги</p>
-                    </div>
-                    <div class="card">
-                        <div class="card__icon"></div>
-                        <h3 class="card__title">Качественно</h3>
-                        <p class="card__text">Описание преимущества или услуги</p>
-                    </div>
-                    <div class="card">
-                        <div class="card__icon"></div>
-                        <h3 class="card__title">Надёжно</h3>
-                        <p class="card__text">Описание преимущества или услуги</p>
-                    </div>
+                <h2 class="section-title">Последние статьи</h2>
+                <div class="articles__list">
+                    <!-- Статья 1 -->
+                    <article class="article">
+                        <div class="article__header">
+                            <span class="article__tag">Технологии</span>
+                            <time class="article__date" datetime="2026-10-28">28 октября 2026</time>
+                        </div>
+                        <h3 class="article__title"><a href="#">Как начать изучать веб-разработку</a></h3>
+                        <p class="article__excerpt">Пошаговое руководство для начинающих: HTML, CSS, JavaScript и первые шаги в создании сайтов.</p>
+                        <a href="#" class="article__link">Читать далее &rarr;</a>
+                    </article>
+
+                    <!-- Статья 2 -->
+                    <article class="article">
+                        <div class="article__header">
+                            <span class="article__tag">Дизайн</span>
+                            <time class="article__date" datetime="2026-10-25">25 октября 2026</time>
+                        </div>
+                        <h3 class="article__title"><a href="#">Основы цветовой теории</a></h3>
+                        <p class="article__excerpt">Как правильно подбирать цвета для своих проектов и почему это важно для восприятия.</p>
+                        <a href="#" class="article__link">Читать далее &rarr;</a>
+                    </article>
+
+                    <!-- Статья 3 -->
+                    <article class="article">
+                        <div class="article__header">
+                            <span class="article__tag">Продуктивность</span>
+                            <time class="article__date" datetime="2026-10-20">20 октября 2026</time>
+                        </div>
+                        <h3 class="article__title"><a href="#">5 привычек продуктивных разработчиков</a></h3>
+                        <p class="article__excerpt">Простые привычки, которые помогут вам работать эффективнее и достигать большего.</p>
+                        <a href="#" class="article__link">Читать далее &rarr;</a>
+                    </article>
+
+                    <!-- Статья 4 -->
+                    <article class="article">
+                        <div class="article__header">
+                            <span class="article__tag">Лайфстайл</span>
+                            <time class="article__date" datetime="2026-10-15">15 октября 2026</time>
+                        </div>
+                        <h3 class="article__title"><a href="#">Баланс между работой и отдыхом</a></h3>
+                        <p class="article__excerpt">Почему важно отдыхать и как найти свой идеальный баланс между работой и личной жизнью.</p>
+                        <a href="#" class="article__link">Читать далее &rarr;</a>
+                    </article>
                 </div>
-            </div>
-        </section>
-
-        <!-- Дополнительная секция -->
-        <section class="about">
-            <div class="container">
-                <h2 class="section-title">О проекте</h2>
-                <p class="about__text">Здесь может быть любой дополнительный контент, текст или информация о вашем проекте.</p>
             </div>
         </section>
     </main>
@@ -75,6 +93,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
