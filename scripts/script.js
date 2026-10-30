@@ -274,7 +274,7 @@
 
         overlayTitle.textContent = 'Игра окончена';
         overlayTitle.classList.add('game-over');
-        overlaySubtitle.textContent = `Счёт: ${score} &nbsp;|&nbsp; Нажмите Пробел для перезапуска`;
+        overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Нажмите Пробел для перезапуска`;
         overlay.classList.remove('hidden');
 
         // Мигание змейки
