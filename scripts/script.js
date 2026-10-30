@@ -9,7 +9,7 @@
     const SPEED_INCREMENT = 2;
     const MIN_SPEED = 60;
     const REVIVE_COST = 10;
-    const SKIN_COST = 100;
+    const SKIN_COST = 10;
 
     // ===== Скины =====
     const SKINS = [

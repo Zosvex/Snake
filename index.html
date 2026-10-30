@@ -8,45 +8,61 @@
 </head>
 <body>
     <div class="game-wrapper">
-        <h1 class="game-title">Змейка</h1>
+        <!-- Шапка -->
+        <header class="header">
+            <h1 class="game-title">Змейка</h1>
+            <div class="header-stats">
+                <div class="stat-card">
+                    <span class="stat-label">Счёт</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Рекорд</span>
+                    <span class="stat-value" id="highScore">0</span>
+                </div>
+                <div class="stat-card stat-card--coins">
+                    <span class="stat-label">Монеты</span>
+                    <span class="stat-value coins" id="coins">0</span>
+                </div>
+                <button class="shop-btn" id="shopBtn" title="Магазин">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
 
-        <div class="score-board">
-            <div class="score-board__item">
-                <span class="score-board__label">Счёт</span>
-                <span class="score-board__value" id="score">0</span>
+        <!-- Игровое поле -->
+        <main class="game-main">
+            <div class="game-container">
+                <canvas id="gameCanvas" width="400" height="400"></canvas>
+                <div class="game-overlay" id="overlay">
+                    <div class="overlay-content">
+                        <h2 class="overlay__title" id="overlayTitle">Змейка</h2>
+                        <p class="overlay__subtitle" id="overlaySubtitle">Нажмите Пробел или кликните для начала</p>
+                        <div class="overlay-actions">
+                            <button class="btn btn--revive" id="reviveBtn" style="display:none;">✦ Возродить</button>
+                            <button class="btn btn--restart" id="restartBtn" style="display:none;">↺ Заново</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="score-board__item">
-                <span class="score-board__label">Рекорд</span>
-                <span class="score-board__value" id="highScore">0</span>
-            </div>
-            <div class="score-board__item">
-                <span class="score-board__label">Монетки</span>
-                <span class="score-board__value coins" id="coins">0</span>
-            </div>
-            <button class="shop-icon" id="shopBtn" title="Магазин скинов">🛒</button>
-        </div>
+        </main>
 
-        <div class="game-container">
-            <canvas id="gameCanvas" width="400" height="400"></canvas>
-            <div class="game-overlay" id="overlay">
-                <p class="overlay__title" id="overlayTitle">Змейка</p>
-                <p class="overlay__subtitle" id="overlaySubtitle">Нажмите Пробел или кликните для начала</p>
-                <button class="btn btn--revive" id="reviveBtn" style="display:none;">✦ Возродить (10 &#9830;)</button>
-                <button class="btn btn--restart" id="restartBtn" style="display:none;">🔄 Заново</button>
-            </div>
-        </div>
-
-        <div class="controls-hint">
-            <p>Управление: <strong>WASD</strong> или <strong>стрелки</strong> &nbsp;|&nbsp; <strong>Пробел</strong> — старт / пауза</p>
-        </div>
+        <!-- Подсказки -->
+        <footer class="controls-hint">
+            <p><kbd>WASD</kbd> / <kbd>↑↓←→</kbd> — движение &nbsp;·&nbsp; <kbd>Пробел</kbd> — старт / пауза</p>
+        </footer>
     </div>
 
     <!-- Модальное окно магазина -->
     <div class="modal" id="shopModal">
+        <div class="modal__backdrop"></div>
         <div class="modal__content">
-            <button class="modal__close" id="shopClose">&times;</button>
+            <button class="modal__close" id="shopClose">×</button>
             <h2 class="modal__title">Магазин скинов</h2>
-            <div class="shop-balance">Баланс: <span id="shopBalance">0</span> &#9830;</div>
+            <div class="shop-balance">Баланс: <span id="shopBalance">0</span> 🪙</div>
             <div class="skins-grid" id="skinsGrid"></div>
         </div>
     </div>
