@@ -137,6 +137,36 @@ body {
     color: #f87171;
 }
 
+/* ===== Кнопка возрождения ===== */
+.btn--revive {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1a1a2e;
+    padding: 10px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+    animation: revivePulse 1.5s ease-in-out infinite;
+}
+
+.btn--revive:hover {
+    box-shadow: 0 6px 28px rgba(251, 191, 36, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn--revive:disabled {
+    background: #555;
+    color: #888;
+    box-shadow: none;
+    animation: none;
+    cursor: default;
+    transform: none;
+}
+
+@keyframes revivePulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4); }
+    50% { box-shadow: 0 4px 30px rgba(251, 191, 36, 0.7); }
+}
+
 /* ===== Подсказки ===== */
 .controls-hint {
     margin-top: 20px;

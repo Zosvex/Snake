@@ -8,6 +8,7 @@
     const INITIAL_SPEED = 150;
     const SPEED_INCREMENT = 2;
     const MIN_SPEED = 60;
+    const REVIVE_COST = 10;
 
     // ===== Состояние игры =====
     let snake = [];
@@ -18,9 +19,11 @@
     let highScore = 0;
     let coins = 0;
     let speed = INITIAL_SPEED;
-    let gameState = 'idle'; // 'idle' | 'running' | 'paused' | 'gameover'
+    let gameState = 'idle'; // 'idle' | 'running' | 'paused' | 'revive' | 'gameover'
     let gameLoop = null;
     let lastRenderTime = 0;
+    let blinkInterval = null;
+    let snakeLengthOnCollision = 0;
 
     // ===== DOM =====
     const canvas = document.getElementById('gameCanvas');
@@ -31,6 +34,7 @@
     const overlay = document.getElementById('overlay');
     const overlayTitle = document.getElementById('overlayTitle');
     const overlaySubtitle = document.getElementById('overlaySubtitle');
+    const reviveBtn = document.getElementById('reviveBtn');
 
     // ===== Загрузка рекорда =====
     function loadHighScore() {
@@ -80,6 +84,41 @@
         spawnFood();
     }
 
+    // ===== Возрождение =====
+    function revive() {
+        if (coins < REVIVE_COST || gameState !== 'revive') return;
+        coins -= REVIVE_COST;
+        saveCoins();
+        coinsEl.textContent = coins;
+
+        // Остановить мигание
+        if (blinkInterval) {
+            clearInterval(blinkInterval);
+            blinkInterval = null;
+        }
+
+        // Спавн змейки по центру с сохранением длины
+        const startX = Math.floor(GRID_COUNT / 2);
+        const startY = Math.floor(GRID_COUNT / 2);
+        const length = snakeLengthOnCollision || 3;
+        snake = [];
+        for (let i = 0; i < length; i++) {
+            snake.push({ x: startX - i, y: startY });
+        }
+        direction = { x: 1, y: 0 };
+        nextDirection = { x: 1, y: 0 };
+
+        // Новая еда
+        spawnFood();
+
+        gameState = 'running';
+        overlay.classList.add('hidden');
+        reviveBtn.style.display = 'none';
+
+        draw();
+        restartLoop();
+    }
+
     // ===== Еда =====
     function spawnFood() {
         let newFood;
@@ -101,18 +140,30 @@
             y: snake[0].y + direction.y
         };
 
-        // Проверка столкновения со стенами
-        if (head.x < 0 || head.x >= GRID_COUNT || head.y < 0 || head.y >= GRID_COUNT) {
-            gameOver();
+        // Проверка столкновения ПЕРЕД движением
+        const hitWall = head.x < 0 || head.x >= GRID_COUNT || head.y < 0 || head.y >= GRID_COUNT;
+        const hitSelf = snake.some(seg => seg.x === head.x && seg.y === head.y);
+
+        if (hitWall || hitSelf) {
+            // Столкновение — змейка НЕ двигается, остаётся на месте
+            snakeLengthOnCollision = snake.length;
+            if (coins >= REVIVE_COST) {
+                // Показываем оверлей с кнопкой возрождения
+                gameState = 'revive';
+                if (gameLoop) cancelAnimationFrame(gameLoop);
+                overlayTitle.textContent = 'Столкновение!';
+                overlayTitle.classList.add('game-over');
+                overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Монетки: ${coins}`;
+                overlay.classList.remove('hidden');
+                reviveBtn.style.display = 'inline-block';
+                reviveBtn.disabled = false;
+            } else {
+                gameOver();
+            }
             return;
         }
 
-        // Проверка столкновения с собой
-        if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
-            gameOver();
-            return;
-        }
-
+        // Если нет столкновения — двигаем змейку
         snake.unshift(head);
 
         // Проверка еды
@@ -307,9 +358,12 @@
         overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Монетки: ${coins} &nbsp;|&nbsp; Нажмите Пробел для перезапуска`;
         overlay.classList.remove('hidden');
 
+        // Показать/скрыть кнопку возрождения (только если есть монетки)
+        reviveBtn.style.display = coins >= REVIVE_COST ? 'inline-block' : 'none';
+
         // Мигание змейки
         let blinkCount = 0;
-        const blinkInterval = setInterval(() => {
+        blinkInterval = setInterval(() => {
             if (gameState !== 'gameover') {
                 clearInterval(blinkInterval);
                 return;
@@ -331,6 +385,9 @@
             e.preventDefault();
             if (gameState === 'idle' || gameState === 'gameover') {
                 startGame();
+            } else if (gameState === 'revive') {
+                // В состоянии возрождения пробел ничего не делает
+                return;
             } else {
                 togglePause();
             }
@@ -364,10 +421,11 @@
     canvas.addEventListener('click', () => {
         if (gameState === 'idle' || gameState === 'gameover') {
             startGame();
-        } else {
+        } else if (gameState !== 'revive') {
             togglePause();
         }
     });
+    reviveBtn.addEventListener('click', revive);
 
     // ===== Запуск =====
     loadHighScore();
