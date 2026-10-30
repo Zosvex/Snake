@@ -23,6 +23,7 @@
                 <span class="score-board__label">Монетки</span>
                 <span class="score-board__value coins" id="coins">0</span>
             </div>
+            <button class="shop-icon" id="shopBtn" title="Магазин скинов">🛒</button>
         </div>
 
         <div class="game-container">
@@ -36,6 +37,16 @@
 
         <div class="controls-hint">
             <p>Управление: <strong>WASD</strong> или <strong>стрелки</strong> &nbsp;|&nbsp; <strong>Пробел</strong> — старт / пауза</p>
+        </div>
+    </div>
+
+    <!-- Модальное окно магазина -->
+    <div class="modal" id="shopModal">
+        <div class="modal__content">
+            <button class="modal__close" id="shopClose">&times;</button>
+            <h2 class="modal__title">Магазин скинов</h2>
+            <div class="shop-balance">Баланс: <span id="shopBalance">0</span> &#9830;</div>
+            <div class="skins-grid" id="skinsGrid"></div>
         </div>
     </div>
 

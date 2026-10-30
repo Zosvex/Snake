@@ -9,6 +9,19 @@
     const SPEED_INCREMENT = 2;
     const MIN_SPEED = 60;
     const REVIVE_COST = 10;
+    const SKIN_COST = 100;
+
+    // ===== Скины =====
+    const SKINS = [
+        { id: 'classic', name: 'Классика', rarity: 'common', head: '#4ade80', body: ['#4ade80', '#22c55e', '#16a34a'], desc: 'Зелёная классика' },
+        { id: 'fire', name: 'Огненная', rarity: 'rare', head: '#f97316', body: ['#f97316', '#ef4444', '#dc2626'], desc: 'Красно-оранжевая' },
+        { id: 'ice', name: 'Ледяная', rarity: 'rare', head: '#38bdf8', body: ['#38bdf8', '#0ea5e9', '#0284c7'], desc: 'Голубая холодная' },
+        { id: 'neon', name: 'Неоновая', rarity: 'epic', head: '#e879f9', body: ['#e879f9', '#d946ef', '#c026d3'], desc: 'Розовая неоновая' },
+        { id: 'gold', name: 'Золотая', rarity: 'epic', head: '#fbbf24', body: ['#fbbf24', '#f59e0b', '#d97706'], desc: 'Блестящее золото' },
+        { id: 'shadow', name: 'Теневая', rarity: 'legendary', head: '#a78bfa', body: ['#a78bfa', '#8b5cf6', '#6d28d9'], desc: 'Фиолетовая тень' },
+        { id: 'rainbow', name: 'Радужная', rarity: 'legendary', head: '#f87171', body: ['#f87171', '#fbbf24', '#4ade80', '#38bdf8', '#a78bfa'], desc: 'Все цвета радуги' },
+        { id: 'cosmic', name: 'Космическая', rarity: 'legendary', head: '#818cf8', body: ['#818cf8', '#6366f1', '#4f46e5'], desc: 'Тёмно-синяя космос' }
+    ];
 
     // ===== Состояние игры =====
     let snake = [];
@@ -24,6 +37,8 @@
     let lastRenderTime = 0;
     let blinkInterval = null;
     let snakeLengthOnCollision = 0;
+    let ownedSkins = [];
+    let currentSkin = 'classic';
 
     // ===== DOM =====
     const canvas = document.getElementById('gameCanvas');
@@ -35,6 +50,11 @@
     const overlayTitle = document.getElementById('overlayTitle');
     const overlaySubtitle = document.getElementById('overlaySubtitle');
     const reviveBtn = document.getElementById('reviveBtn');
+    const shopBtn = document.getElementById('shopBtn');
+    const shopModal = document.getElementById('shopModal');
+    const shopClose = document.getElementById('shopClose');
+    const shopBalance = document.getElementById('shopBalance');
+    const skinsGrid = document.getElementById('skinsGrid');
 
     // ===== Загрузка рекорда =====
     function loadHighScore() {
@@ -64,6 +84,117 @@
     function saveCoins() {
         localStorage.setItem('snakeCoins', coins);
         coinsEl.textContent = coins;
+    }
+
+    // ===== Скины =====
+    function loadSkins() {
+        const saved = localStorage.getItem('snakeSkins');
+        if (saved) {
+            ownedSkins = JSON.parse(saved);
+        } else {
+            ownedSkins = ['classic'];
+            saveSkins();
+        }
+        const savedCurrent = localStorage.getItem('snakeCurrentSkin');
+        if (savedCurrent && ownedSkins.includes(savedCurrent)) {
+            currentSkin = savedCurrent;
+        } else {
+            currentSkin = 'classic';
+        }
+    }
+
+    function saveSkins() {
+        localStorage.setItem('snakeSkins', JSON.stringify(ownedSkins));
+        localStorage.setItem('snakeCurrentSkin', currentSkin);
+    }
+
+    function getSkin(id) {
+        return SKINS.find(s => s.id === id);
+    }
+
+    function renderShop() {
+        shopBalance.textContent = coins;
+        skinsGrid.innerHTML = '';
+
+        SKINS.forEach(skin => {
+            const isOwned = ownedSkins.includes(skin.id);
+            const isEquipped = currentSkin === skin.id;
+            const canBuy = coins >= SKIN_COST && !isOwned;
+
+            const card = document.createElement('div');
+            card.className = `skin-card skin-card--${skin.rarity}`;
+            if (isEquipped) card.classList.add('skin-card--equipped');
+
+            const preview = document.createElement('div');
+            preview.className = 'skin-card__preview';
+            preview.style.background = `linear-gradient(90deg, ${skin.body[0]}, ${skin.body[1] || skin.body[0]})`;
+
+            const name = document.createElement('div');
+            name.className = 'skin-card__name';
+            name.textContent = skin.name;
+
+            const rarity = document.createElement('div');
+            rarity.className = `skin-card__rarity ${skin.rarity}`;
+            const rarityNames = { common: 'Обычный', rare: 'Редкий', epic: 'Эпический', legendary: 'Легендарный' };
+            rarity.textContent = rarityNames[skin.rarity];
+
+            const price = document.createElement('div');
+            price.className = 'skin-card__price';
+            if (isOwned) {
+                price.textContent = isEquipped ? '✓ Выбран' : 'Куплено';
+                price.style.color = isEquipped ? '#4ade80' : '#888';
+            } else {
+                price.innerHTML = `${SKIN_COST} &#9830;`;
+            }
+
+            const btn = document.createElement('button');
+            btn.className = 'skin-card__btn';
+            if (isEquipped) {
+                btn.textContent = 'Выбрано';
+                btn.classList.add('skin-card__btn--equipped');
+                btn.disabled = true;
+            } else if (isOwned) {
+                btn.textContent = 'Выбрать';
+                btn.classList.add('skin-card__btn--equip');
+                btn.addEventListener('click', () => {
+                    currentSkin = skin.id;
+                    saveSkins();
+                    renderShop();
+                });
+            } else if (canBuy) {
+                btn.textContent = 'Купить';
+                btn.classList.add('skin-card__btn--buy');
+                btn.addEventListener('click', () => {
+                    coins -= SKIN_COST;
+                    saveCoins();
+                    ownedSkins.push(skin.id);
+                    saveSkins();
+                    currentSkin = skin.id;
+                    saveSkins();
+                    renderShop();
+                });
+            } else {
+                btn.textContent = 'Не хватает';
+                btn.classList.add('skin-card__btn--buy');
+                btn.disabled = true;
+            }
+
+            card.appendChild(preview);
+            card.appendChild(name);
+            card.appendChild(rarity);
+            card.appendChild(price);
+            card.appendChild(btn);
+            skinsGrid.appendChild(card);
+        });
+    }
+
+    function getSnakeColors() {
+        const skin = getSkin(currentSkin);
+        return {
+            head: skin.head,
+            body: skin.body,
+            glow: skin.head
+        };
     }
 
     // ===== Инициализация =====
@@ -232,6 +363,7 @@
         }
 
         // Змейка
+        const colors = getSnakeColors();
         snake.forEach((seg, i) => {
             const x = seg.x * CELL_SIZE;
             const y = seg.y * CELL_SIZE;
@@ -239,16 +371,14 @@
 
             if (i === 0) {
                 // Голова
-                ctx.fillStyle = '#4ade80';
-                ctx.shadowColor = '#4ade80';
+                ctx.fillStyle = colors.head;
+                ctx.shadowColor = colors.glow;
                 ctx.shadowBlur = 8;
             } else {
-                // Тело — градиент от зелёного к тёмному
+                // Тело — градиент от цвета головы к тёмному
                 const ratio = i / snake.length;
-                const r = Math.round(74 - ratio * 40);
-                const g = Math.round(222 - ratio * 100);
-                const b = Math.round(128 - ratio * 60);
-                ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                const bodyColor = colors.body[Math.min(Math.floor(ratio * colors.body.length), colors.body.length - 1)];
+                ctx.fillStyle = bodyColor;
                 ctx.shadowBlur = 0;
             }
 
@@ -427,9 +557,26 @@
     });
     reviveBtn.addEventListener('click', revive);
 
+    // Магазин
+    shopBtn.addEventListener('click', () => {
+        renderShop();
+        shopModal.classList.add('open');
+    });
+
+    shopClose.addEventListener('click', () => {
+        shopModal.classList.remove('open');
+    });
+
+    shopModal.addEventListener('click', (e) => {
+        if (e.target === shopModal) {
+            shopModal.classList.remove('open');
+        }
+    });
+
     // ===== Запуск =====
     loadHighScore();
     loadCoins();
+    loadSkins();
     initGame();
     draw();
 

@@ -38,6 +38,7 @@ body {
 .score-board {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 48px;
     margin-bottom: 20px;
 }
@@ -67,10 +68,39 @@ body {
     text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
 }
 
+/* ===== Иконка магазина ===== */
+.shop-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #374151;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.shop-icon:hover {
+    background-color: #4b5563;
+    transform: scale(1.1);
+}
+
+.shop-icon:active {
+    transform: scale(0.95);
+}
+
 .score-board__item {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.score-board__item:last-of-type {
+    margin-right: 32px;
 }
 
 .score-board__label {
@@ -176,4 +206,175 @@ body {
 
 .controls-hint strong {
     color: #999;
+}
+
+/* ===== Модальное окно ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__content {
+    background: #1a1a2e;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 520px;
+    width: 90%;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal__close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal__close:hover {
+    color: #fff;
+}
+
+.modal__title {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: #fff;
+    text-align: center;
+}
+
+.shop-balance {
+    text-align: center;
+    color: #fbbf24;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* ===== Сетка скинов ===== */
+.skins-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.skin-card {
+    background: #0f0f1a;
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 2px solid #333;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.skin-card:hover {
+    transform: translateY(-2px);
+}
+
+.skin-card--common { border-color: #9ca3af; }
+.skin-card--rare { border-color: #60a5fa; }
+.skin-card--epic { border-color: #a78bfa; }
+.skin-card--legendary { border-color: #fbbf24; }
+
+.skin-card__preview {
+    width: 60px;
+    height: 20px;
+    border-radius: 10px;
+    margin: 0 auto 10px;
+}
+
+.skin-card__name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.skin-card__rarity {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.skin-card__rarity.common { color: #9ca3af; }
+.skin-card__rarity.rare { color: #60a5fa; }
+.skin-card__rarity.epic { color: #a78bfa; }
+.skin-card__rarity.legendary { color: #fbbf24; }
+
+.skin-card__price {
+    color: #fbbf24;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.skin-card__btn {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.skin-card__btn:hover {
+    transform: scale(1.05);
+}
+
+.skin-card__btn--buy {
+    background: #fbbf24;
+    color: #1a1a2e;
+}
+
+.skin-card__btn--equip {
+    background: #4ade80;
+    color: #1a1a2e;
+}
+
+.skin-card__btn--equipped {
+    background: #555;
+    color: #aaa;
+    cursor: default;
+}
+
+.skin-card--equipped {
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.4);
+}
+
+/* ===== Скроллбар ===== */
+.modal__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal__content::-webkit-scrollbar-track {
+    background: #0f0f1a;
+    border-radius: 3px;
+}
+
+.modal__content::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
 }
