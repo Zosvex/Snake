@@ -3,102 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой сайт</title>
+    <title>Змейка</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Шапка -->
-    <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <a href="#" class="logo">Мой сайт</a>
-                <nav class="nav">
-                    <ul class="nav__list">
-                        <li class="nav__item"><a href="#" class="nav__link">Главная</a></li>
-                        <li class="nav__item"><a href="#" class="nav__link">Статьи</a></li>
-                        <li class="nav__item"><a href="#" class="nav__link">О блоге</a></li>
-                    </ul>
-                </nav>
+    <div class="game-wrapper">
+        <h1 class="game-title">Змейка</h1>
+
+        <div class="score-board">
+            <div class="score-board__item">
+                <span class="score-board__label">Счёт</span>
+                <span class="score-board__value" id="score">0</span>
+            </div>
+            <div class="score-board__item">
+                <span class="score-board__label">Рекорд</span>
+                <span class="score-board__value" id="highScore">0</span>
             </div>
         </div>
-    </header>
 
-    <!-- Основной контент -->
-    <main>
-        <!-- Герой-секция -->
-        <section class="hero">
-            <div class="container">
-                <h1 class="hero__title fade-in" id="hero-title"></h1>
-                <p class="hero__subtitle fade-in fade-in--delay-1">Мысли, идеи и заметки обо всём на свете</p>
+        <div class="game-container">
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            <div class="game-overlay" id="overlay">
+                <p class="overlay__title" id="overlayTitle">Змейка</p>
+                <p class="overlay__subtitle" id="overlaySubtitle">Нажмите Пробел или кликните для начала</p>
             </div>
-        </section>
-
-        <!-- Список статей -->
-        <section class="articles">
-            <div class="container">
-                <h2 class="section-title">Последние статьи</h2>
-                <div class="articles__list">
-                    <!-- Статья 1 -->
-                    <article class="article fade-in fade-in--delay-1" data-read-time="5">
-                        <div class="article__header">
-                            <span class="article__tag">Технологии</span>
-                            <time class="article__date" datetime="2026-10-28">28 октября 2026</time>
-                        </div>
-                        <h3 class="article__title"><a href="#">Как начать изучать веб-разработку</a></h3>
-                        <p class="article__excerpt">Пошаговое руководство для начинающих: HTML, CSS, JavaScript и первые шаги в создании сайтов.</p>
-                        <div class="read-time"><span class="read-time__icon">&#9201;</span> <span class="read-time__number">5</span> мин чтения</div>
-                        <a href="#" class="article__link">Читать далее &rarr;</a>
-                    </article>
-
-                    <!-- Статья 2 -->
-                    <article class="article fade-in fade-in--delay-2" data-read-time="4">
-                        <div class="article__header">
-                            <span class="article__tag">Дизайн</span>
-                            <time class="article__date" datetime="2026-10-25">25 октября 2026</time>
-                        </div>
-                        <h3 class="article__title"><a href="#">Основы цветовой теории</a></h3>
-                        <p class="article__excerpt">Как правильно подбирать цвета для своих проектов и почему это важно для восприятия.</p>
-                        <div class="read-time"><span class="read-time__icon">&#9201;</span> <span class="read-time__number">4</span> мин чтения</div>
-                        <a href="#" class="article__link">Читать далее &rarr;</a>
-                    </article>
-
-                    <!-- Статья 3 -->
-                    <article class="article fade-in fade-in--delay-3" data-read-time="3">
-                        <div class="article__header">
-                            <span class="article__tag">Продуктивность</span>
-                            <time class="article__date" datetime="2026-10-20">20 октября 2026</time>
-                        </div>
-                        <h3 class="article__title"><a href="#">5 привычек продуктивных разработчиков</a></h3>
-                        <p class="article__excerpt">Простые привычки, которые помогут вам работать эффективнее и достигать большего.</p>
-                        <div class="read-time"><span class="read-time__icon">&#9201;</span> <span class="read-time__number">3</span> мин чтения</div>
-                        <a href="#" class="article__link">Читать далее &rarr;</a>
-                    </article>
-
-                    <!-- Статья 4 -->
-                    <article class="article fade-in fade-in--delay-4" data-read-time="6">
-                        <div class="article__header">
-                            <span class="article__tag">Лайфстайл</span>
-                            <time class="article__date" datetime="2026-10-15">15 октября 2026</time>
-                        </div>
-                        <h3 class="article__title"><a href="#">Баланс между работой и отдыхом</a></h3>
-                        <p class="article__excerpt">Почему важно отдыхать и как найти свой идеальный баланс между работой и личной жизнью.</p>
-                        <div class="read-time"><span class="read-time__icon">&#9201;</span> <span class="read-time__number">6</span> мин чтения</div>
-                        <a href="#" class="article__link">Читать далее &rarr;</a>
-                    </article>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Подвал -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer__text">&copy; 2026 Мой сайт. Все права защищены.</p>
         </div>
-    </footer>
 
-    <!-- Кнопка "Наверх" -->
-    <button class="scroll-top" id="scrollTop" aria-label="Наверх">&#8679;</button>
+        <div class="controls-hint">
+            <p>Управление: <strong>WASD</strong> или <strong>стрелки</strong> &nbsp;|&nbsp; <strong>Пробел</strong> — старт / пауза</p>
+        </div>
+    </div>
 
     <script src="scripts/script.js"></script>
 </body>

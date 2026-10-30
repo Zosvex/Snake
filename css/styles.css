@@ -1,4 +1,4 @@
-/* ===== Сброс и базовые стили ===== */
+/* ===== Сброс ===== */
 *,
 *::before,
 *::after {
@@ -8,274 +8,117 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    height: 100%;
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fafafa;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-ul {
-    list-style: none;
-}
-
-/* ===== Утилиты ===== */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 40px;
-}
-
-/* ===== Шапка ===== */
-.header {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header__inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-}
-
-.logo {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #1a1a2e;
-}
-
-.nav__list {
-    display: flex;
-    gap: 28px;
-}
-
-.nav__link {
-    font-weight: 500;
-    color: #555;
-    transition: color 0.2s;
-    position: relative;
-}
-
-.nav__link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #4f46e5;
-    transition: width 0.3s;
-}
-
-.nav__link:hover::after,
-.nav__link--active::after {
-    width: 100%;
-}
-
-.nav__link:hover,
-.nav__link--active {
-    color: #1a1a2e;
-}
-
-/* ===== Герой-секция ===== */
-.hero {
-    text-align: center;
-    padding: 80px 0 60px;
-}
-
-.hero__title {
-    font-size: 2.4rem;
-    color: #1a1a2e;
-    margin-bottom: 12px;
-}
-
-.hero__subtitle {
-    font-size: 1.15rem;
-    color: #777;
-}
-
-/* ===== Статьи ===== */
-.articles {
-    padding: 40px 0 80px;
-}
-
-.articles__list {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.article {
-    background: #fff;
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.article:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-.article__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.article__tag {
-    display: inline-block;
-    padding: 4px 12px;
-    background-color: #eef2ff;
-    color: #4f46e5;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.article__date {
-    font-size: 0.85rem;
-    color: #999;
-}
-
-.article__title {
-    font-size: 1.35rem;
-    margin-bottom: 10px;
-    color: #1a1a2e;
-}
-
-.article__title a:hover {
-    color: #4f46e5;
-}
-
-.article__excerpt {
-    color: #666;
-    margin-bottom: 16px;
-}
-
-.article__link {
-    font-weight: 600;
-    color: #4f46e5;
-    font-size: 0.95rem;
-    transition: opacity 0.2s;
-}
-
-.article__link:hover {
-    opacity: 0.7;
-}
-
-/* ===== Подвал ===== */
-.footer {
-    background-color: #1a1a2e;
-    color: #888;
-    text-align: center;
-    padding: 24px 0;
-    font-size: 0.9rem;
-}
-
-/* ===== Анимации ===== */
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Задержки для каскадной анимации */
-.fade-in--delay-1 { transition-delay: 0.1s; }
-.fade-in--delay-2 { transition-delay: 0.2s; }
-.fade-in--delay-3 { transition-delay: 0.3s; }
-.fade-in--delay-4 { transition-delay: 0.4s; }
-
-/* ===== Кнопка "Наверх" ===== */
-.scroll-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #4f46e5;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-size: 1.3rem;
+    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s, background-color 0.2s;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    z-index: 99;
+    background-color: #0f0f1a;
+    color: #e0e0e0;
 }
 
-.scroll-top.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+/* ===== Обёртка ===== */
+.game-wrapper {
+    text-align: center;
 }
 
-.scroll-top:hover {
-    background: #4338ca;
+.game-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #4ade80;
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
 }
 
-/* ===== Эффект печатания ===== */
-.typing-cursor {
-    display: inline-block;
-    width: 3px;
-    height: 1em;
-    background-color: #4f46e5;
-    margin-left: 4px;
-    animation: blink 0.8s infinite;
-    vertical-align: text-bottom;
+/* ===== Табло счёта ===== */
+.score-board {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 20px;
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-/* ===== Счётчик времени чтения ===== */
-.read-time {
-    display: inline-flex;
+.score-board__item {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    color: #999;
-    margin-top: 8px;
 }
 
-.read-time__icon {
+.score-board__label {
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.score-board__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ===== Игровое поле ===== */
+.game-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(74, 222, 128, 0.15);
+}
+
+#gameCanvas {
+    display: block;
+    background-color: #1a1a2e;
+}
+
+/* ===== Оверлей ===== */
+.game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 26, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.3s;
+}
+
+.game-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4ade80;
+}
+
+.overlay__subtitle {
+    font-size: 1rem;
+    color: #aaa;
+}
+
+.overlay__title.game-over {
+    color: #f87171;
+}
+
+/* ===== Подсказки ===== */
+.controls-hint {
+    margin-top: 20px;
+    color: #666;
     font-size: 0.9rem;
 }
 
-.read-time__number {
-    font-weight: 600;
-    color: #4f46e5;
+.controls-hint strong {
+    color: #999;
 }
