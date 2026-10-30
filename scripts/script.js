@@ -50,6 +50,7 @@
     const overlayTitle = document.getElementById('overlayTitle');
     const overlaySubtitle = document.getElementById('overlaySubtitle');
     const reviveBtn = document.getElementById('reviveBtn');
+    const restartBtn = document.getElementById('restartBtn');
     const shopBtn = document.getElementById('shopBtn');
     const shopModal = document.getElementById('shopModal');
     const shopClose = document.getElementById('shopClose');
@@ -244,7 +245,11 @@
 
         gameState = 'running';
         overlay.classList.add('hidden');
+        overlayTitle.classList.remove('game-over');
+        overlayTitle.textContent = 'Змейка';
+        overlaySubtitle.textContent = 'Нажмите Пробел или кликните для начала';
         reviveBtn.style.display = 'none';
+        restartBtn.style.display = 'none';
 
         draw();
         restartLoop();
@@ -287,6 +292,7 @@
                 overlaySubtitle.innerHTML = `Счёт: ${score} &nbsp;|&nbsp; Монетки: ${coins}`;
                 overlay.classList.remove('hidden');
                 reviveBtn.style.display = 'inline-block';
+                restartBtn.style.display = 'inline-block';
                 reviveBtn.disabled = false;
             } else {
                 gameOver();
@@ -457,6 +463,7 @@
         gameState = 'running';
         overlay.classList.add('hidden');
         overlayTitle.classList.remove('game-over');
+        restartBtn.style.display = 'none';
         draw();
         restartLoop();
     }
@@ -474,6 +481,7 @@
             overlay.classList.add('hidden');
             lastRenderTime = performance.now();
             gameLoop = requestAnimationFrame(gameCycle);
+            restartBtn.style.display = 'none';
         }
     }
 
@@ -490,6 +498,7 @@
 
         // Показать/скрыть кнопку возрождения (только если есть монетки)
         reviveBtn.style.display = coins >= REVIVE_COST ? 'inline-block' : 'none';
+        restartBtn.style.display = 'inline-block';
 
         // Мигание змейки
         let blinkCount = 0;
@@ -556,6 +565,7 @@
         }
     });
     reviveBtn.addEventListener('click', revive);
+    restartBtn.addEventListener('click', startGame);
 
     // Магазин
     shopBtn.addEventListener('click', () => {
