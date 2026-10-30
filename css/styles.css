@@ -71,9 +71,27 @@ ul {
     font-weight: 500;
     color: #555;
     transition: color 0.2s;
+    position: relative;
 }
 
-.nav__link:hover {
+.nav__link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #4f46e5;
+    transition: width 0.3s;
+}
+
+.nav__link:hover::after,
+.nav__link--active::after {
+    width: 100%;
+}
+
+.nav__link:hover,
+.nav__link--active {
     color: #1a1a2e;
 }
 
@@ -173,4 +191,91 @@ ul {
     text-align: center;
     padding: 24px 0;
     font-size: 0.9rem;
+}
+
+/* ===== Анимации ===== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Задержки для каскадной анимации */
+.fade-in--delay-1 { transition-delay: 0.1s; }
+.fade-in--delay-2 { transition-delay: 0.2s; }
+.fade-in--delay-3 { transition-delay: 0.3s; }
+.fade-in--delay-4 { transition-delay: 0.4s; }
+
+/* ===== Кнопка "Наверх" ===== */
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s, background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    z-index: 99;
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top:hover {
+    background: #4338ca;
+}
+
+/* ===== Эффект печатания ===== */
+.typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background-color: #4f46e5;
+    margin-left: 4px;
+    animation: blink 0.8s infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ===== Счётчик времени чтения ===== */
+.read-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: 8px;
+}
+
+.read-time__icon {
+    font-size: 0.9rem;
+}
+
+.read-time__number {
+    font-weight: 600;
+    color: #4f46e5;
 }
